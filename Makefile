@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/31 14:54:52 by lrocca            #+#    #+#              #
-#    Updated: 2021/03/31 19:42:59 by lrocca           ###   ########.fr        #
+#    Updated: 2021/04/01 18:56:57 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ RM		=	/bin/rm -f
 NAME	=	libasm.a
 MAIN	=	main.c
 TEST	=	test
-SRC		=	ft_strlen.s ft_strcpy.s ft_strcmp.s ft_write.s ft_read.s
+SRC		=	ft_strlen.s ft_strcpy.s ft_strcmp.s ft_write.s ft_read.s ft_strdup.s
 OBJ		=	$(SRC:.s=.o)
 
 all		:	$(NAME)

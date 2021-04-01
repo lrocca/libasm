@@ -9,13 +9,13 @@ loop:
 			mov		al, byte [rdi + rcx]		; move to ret
 			mov		bl, byte [rsi + rcx]		; move to ret
 			cmp		al, 0
-			je		_zero
+			je		ret
 			cmp		bl, 0
-			je		_zero
+			je		ret
 			cmp		al, bl					; compare two chars
 			je		loop						; a == b
 
-_zero:
+ret:
 			movzx	rax, al						; move to bigger register
 			movzx	rdx, bl						; move to bigger register
 			sub		rax, rdx					; get return value
