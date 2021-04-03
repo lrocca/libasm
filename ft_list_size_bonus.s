@@ -18,12 +18,12 @@
 _ft_list_size:
 	xor		rax, rax			; start count from 0
 
-loop:
+_loop:
 	cmp		rdi, 0				; compare node
-	jz		ret					; if end of list, go to ret
+	jz		_ret				; if end of list, go to ret
 	inc		rax					; increment count
 	mov		rdi, [rdi + 8]		; move to next node
-	jmp		loop				; if not zero, loop
+	jmp		_loop				; if not zero, loop
 
-ret:
+_ret:
 	ret							; return count

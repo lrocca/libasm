@@ -18,9 +18,9 @@
 _ft_strlen:
 	mov		rax, -1				; start index from -1
 
-loop:
+_loop:
 	inc		rax					; increment index
 	cmp		byte [rdi + rax], 0	; compare *(s + index)
-	jnz		loop				; if not zero, loop
+	jnz		_loop				; if not zero, loop
 
 	ret							; return index

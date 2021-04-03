@@ -18,18 +18,18 @@
 _ft_strcmp:
 	mov		rcx, -1					; index starts from -1
 
-loop:
+_loop:
 	inc		rcx						; increment index
 	mov		al, byte [rdi + rcx]	; move to ret
 	mov		bl, byte [rsi + rcx]	; move to ret
 	cmp		al, 0					; if s1 is over
-	je		ret						; go to ret
+	je		_ret					; go to ret
 	cmp		bl, 0					; if s2 is over
-	je		ret						; go to ret
+	je		_ret					; go to ret
 	cmp		al, bl					; compare two chars
-	je		loop					; a == b
+	je		_loop					; a == b
 
-ret:
+_ret:
 	sub		al, bl					; get diff
 	jz		eq						; diff is 0, ret = 0
 	jl		less					; less than 0, ret = -1

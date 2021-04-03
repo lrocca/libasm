@@ -18,15 +18,15 @@
 _ft_strcpy:
 	xor		rcx, rcx				; index starts from 0
 
-loop:
+_loop:
 	cmp		byte [rsi + rcx], 0		; compare *(str + index)
-	jz		ret						; src == 0, go to return
+	jz		_ret					; src == 0, go to return
 	mov		al, byte [rsi + rcx]	; move src (2nd arg) char to register
 	mov		byte [rdi + rcx], al	; copy from register to dst (1st arg)
 	inc		rcx						; increment index
-	jmp		loop					; repeat if not zero
+	jmp		_loop					; repeat if not zero
 
-ret:
+_ret:
 	mov		byte [rdi + rcx], 0		; null terminate dst
 	mov		rax, rdi				; return dst
 	ret
