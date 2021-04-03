@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/31 14:54:52 by lrocca            #+#    #+#              #
-#    Updated: 2021/04/03 19:20:46 by lrocca           ###   ########.fr        #
+#    Updated: 2021/04/03 20:27:00 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ NAME	=	libasm.a
 MAIN	=	main.c
 TEST	=	test
 SRC		=	ft_strlen.s ft_strcpy.s ft_strcmp.s ft_write.s ft_read.s ft_strdup.s
-SRC		+=	ft_list_size_bonus.s ft_isspace_bonus.s
+SRC		+=	ft_list_size_bonus.s ft_atoi_base_bonus.s
 OBJ		=	$(SRC:.s=.o)
 
 all		:	$(NAME)

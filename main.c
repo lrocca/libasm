@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 15:17:47 by lrocca            #+#    #+#             */
-/*   Updated: 2021/04/03 17:33:30 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/04/03 20:21:45 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,29 @@ void	test_strdup(void)
 	puts("");
 }
 
+void	test_atoi_base(void)
+{
+	puts("ft_atoi_base");
+
+	printf("1 = %d\n", ft_atoi_base("1", "01"));
+
+	// int		index;
+	// char	*str[] = {" +--56", "	---ff", "\v-42", "\f+-+-11101", "  -+00501",
+	// " +105", "  -+11", "15256", "15", "122", "122", "568", "111", "155",
+	// "05", "abc56"};
+	// char	*base[] = {"0123456789", "0123456789abcdef", "0123456789", "01",
+	// "0123456789", "0123456789", "", "5", "-123456789", "012+3456789",
+	// "0 1", "012345\t6789", "01\r", "01234506789", "012345067890", "0123456789"};
+
+	// for (int i = 0 ; i < 16; i++)
+	// {
+	// 	index = i;
+	// 	printf("%-9s= |%3s|\n", "string", str[index]);
+	// 	printf("%-9s= |%3s|\n", "base", base[index]);
+	// 	printf(GR"%-9s= %i\n\n"NC, "return" , ft_atoi_base(str[index], base[index]));
+	// }
+}
+
 void	test_list_size(void)
 {
 	puts("ft_list_size");
@@ -164,5 +187,7 @@ int		main(void)
 	test_write();
 	test_read();
 	test_strdup();
+
+	test_atoi_base();
 	test_list_size();
 }
