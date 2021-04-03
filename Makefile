@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/31 14:54:52 by lrocca            #+#    #+#              #
-#    Updated: 2021/04/03 20:27:00 by lrocca           ###   ########.fr        #
+#    Updated: 2021/04/03 20:30:31 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ $(NAME)	:	$(OBJ)
 	nasm -fmacho64 $^ -o $@
 
 $(TEST)	:	$(MAIN) $(NAME)
-	$(CC) $(CFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) -L. -lasm $< -o $@
 
 clean	:
 	$(RM) $(OBJ)
