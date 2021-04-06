@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 15:17:47 by lrocca            #+#    #+#             */
-/*   Updated: 2021/04/06 20:14:57 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/04/06 21:30:17 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	ft_list_push_front(t_list **begin_list,void*data);
 int		ft_list_size(t_list *begin_list);
 void	ft_list_sort(t_list **begin_list, int(*cmp)());
 void	ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)(), void (*free_fct)(void*));
-
 
 void	test_strlen(void)
 {
@@ -161,6 +160,67 @@ void	test_atoi_base(void)
 	puts("");
 }
 
+void	my_lstclear(t_list **lst)
+{
+	t_list	*curr;
+	t_list	*next;
+
+	if (lst && *lst)
+	{
+		curr = *lst;
+		*lst = NULL;
+		while (curr)
+		{
+			next = curr->next;
+			free(curr->data);
+			free(curr);
+			curr = next;
+		}
+	}
+}
+
+void	test_list_push_front(void)
+{
+	puts("ft_list_push_front");
+
+	t_list	list;
+	t_list	list_next;
+	t_list	list_last;
+	t_list	*test = &list;
+	char	*data;
+
+	list.data = strdup("one");
+	list.next = &list_next;
+	list.next->data = strdup("two");
+	list.next->next = &list_last;
+	list.next->next->data = strdup("three");
+	list.next->next->next = NULL;
+	data = strdup("zero");
+
+	if (ft_list_size(test) != 3)
+		return ((void)(puts(KO)));
+
+	ft_list_push_front(&test, data);
+	ft_list_size(test) == 4 && test->next == &list && data == (char *)test->data ? printf(OK) : printf(KO);
+
+	test->next = NULL;
+	my_lstclear(&test);
+	test = NULL;
+	data = strdup("zero");
+
+	ft_list_push_front(&test, data);
+	ft_list_size(test) == 1 && test->next == NULL && data == (char *)test->data ? printf(OK) : printf(KO);
+	ft_list_push_front(&test, NULL);
+	ft_list_size(test) == 2 && test->data == NULL && data == (char *)test->next->data ? printf(OK) : printf(KO);
+
+	my_lstclear(&test);
+	free(list.data);
+	free(list.next->data);
+	free(list.next->next->data);
+
+	puts("");
+}
+
 void	test_list_size(void)
 {
 	puts("ft_list_size");
@@ -194,5 +254,6 @@ int		main(void)
 	puts("");
 
 	test_atoi_base();
+	test_list_push_front();
 	test_list_size();
 }
