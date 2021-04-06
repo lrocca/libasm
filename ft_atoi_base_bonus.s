@@ -15,18 +15,19 @@
 
 ; int		ft_atoi_base(char *rdi, char *rsi);
 
-_ft_atoi_base:						; rsi = radix
+_ft_atoi_base:
 	xor		rax, rax				; number = 0
 	mov		r8, -1					; r8 = base
 
 radix_loop:							; main radix loop check
 	inc		r8						; increment base
 	cmp		byte [rsi + r8], 0		; if radix is over
-	jz		radix_val				; go check base is valid
+	jz		radix_validate			; validate base
 	mov		r9, r8					; copy curr value to iterator
 	mov		r10b, [rsi + r8]		; copy current char
 
 radix_dup:							; look for following duplicate chars
+	inc		r9						; next radix char
 	cmp		byte [rsi + r9], 0		; if radix is over
 	jz		radix_check				; go check char value
 	cmp		byte [rsi + r9], r10b	; compare current with iterated
@@ -50,13 +51,13 @@ radix_check:						; radix can't contain the following chars
 	je		error
 	cmp		byte [rsi + r8], 45		; '-'
 	je		error
-	jmp		radix_loop				; continue loop
+	jmp		radix_loop				; continue looping radix
 
-radix_val:
+radix_validate:
 	cmp		r8, 1					; if base <= 1
 	jle		error					; go to error
-	xor		r9, r9					; reset iterator
 
+	mov		r9, -1					; reset iterator
 skip:								; skip number whitespaces
 	inc		r9
 	cmp		byte [rdi + r9], 9		; '\t'
@@ -71,13 +72,13 @@ skip:								; skip number whitespaces
 	je		skip
 	cmp		byte [rdi + r9], 32		; ' '
 	je		skip
+	xor		r10, r10				; reset sign flag
 	jmp		sign
 
 _neg:
 	xor		r10b, 0x00000001		; invert previous value
 _pos:
 	inc		r9
-
 sign:								; sign loop
 	cmp		byte [rdi + r9], 43		; '+'
 	je		_pos
@@ -92,9 +93,11 @@ atoi:
 	mov		r11, -1					; reset j
 
 atoi_loop:
-	inc		r11
-	mov		dl, byte [rsi + r9]		; copy current char
-	cmp		dl, byte [rdi + r11]	; compare with current radix char
+	inc		r11						; next radix char
+	mov		dl, byte [rdi + r9]		; copy current char
+	cmp		byte [rsi + r11], 0		; if radix is over
+	jz		_ret					; the number is over as well
+	cmp		dl, byte [rsi + r11]	; compare with current radix char
 	jne		atoi_loop				; continue looking for radix char
 
 sum:
@@ -110,5 +113,5 @@ return:
 	ret
 
 error:
-	xor		rax, rax
-	ret
+	xor		rax, rax				; clean rax
+	ret								; return 0

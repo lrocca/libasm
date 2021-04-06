@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 15:17:47 by lrocca            #+#    #+#             */
-/*   Updated: 2021/04/03 20:21:45 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/04/06 20:14:57 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,15 @@
 #include <string.h>
 #include <unistd.h>
 
-#define NC	"\x1b[0m"
-#define GR	"\x1b[32m"
-#define RD	"\x1b[31m"
+#define NC "\x1b[0m"
+#define GR "\x1b[32m"
+#define RD "\x1b[31m"
 
-#define OK	GR"[OK]"NC" "
-#define KO	RD"[KO]"NC" "
+#define OK GR "[OK]" NC " "
+#define KO RD "[KO]" NC " "
 
+#define BASE10 "0123456789"
+#define BASE16 BASE10"abcdef"
 typedef struct	s_list
 {
 	void			*data;
@@ -139,23 +141,24 @@ void	test_atoi_base(void)
 {
 	puts("ft_atoi_base");
 
-	printf("1 = %d\n", ft_atoi_base("1", "01"));
+	ft_atoi_base(" +--56", BASE10) == 56		? printf(OK) : printf(KO);
+	ft_atoi_base("	---ff", BASE16) == -255		? printf(OK) : printf(KO);
+	ft_atoi_base("\v-42", BASE10) == -42		? printf(OK) : printf(KO);
+	ft_atoi_base("\f+-+-11101", "01") == 29		? printf(OK) : printf(KO);
+	ft_atoi_base("  -+00501",BASE10) == -501	? printf(OK) : printf(KO);
+	ft_atoi_base(" +105", BASE10) == 105		? printf(OK) : printf(KO);
+	ft_atoi_base("  -+11", "") == 0				? printf(OK) : printf(KO);
+	ft_atoi_base("15256", "5") == 0				? printf(OK) : printf(KO);
+	ft_atoi_base("15", "-123456789") == 0		? printf(OK) : printf(KO);
+	ft_atoi_base("122", "012+3456789") == 0		? printf(OK) : printf(KO);
+	ft_atoi_base("122", "0 1") == 0				? printf(OK) : printf(KO);
+	ft_atoi_base("568", "012345\t6789") == 0	? printf(OK) : printf(KO);
+	ft_atoi_base("111", "01\r") == 0			? printf(OK) : printf(KO);
+	ft_atoi_base("155", "01234506789") == 0		? printf(OK) : printf(KO);
+	ft_atoi_base("05", "012345067890") == 0		? printf(OK) : printf(KO);
+	ft_atoi_base("abc56", BASE10) == 0			? printf(OK) : printf(KO);
 
-	// int		index;
-	// char	*str[] = {" +--56", "	---ff", "\v-42", "\f+-+-11101", "  -+00501",
-	// " +105", "  -+11", "15256", "15", "122", "122", "568", "111", "155",
-	// "05", "abc56"};
-	// char	*base[] = {"0123456789", "0123456789abcdef", "0123456789", "01",
-	// "0123456789", "0123456789", "", "5", "-123456789", "012+3456789",
-	// "0 1", "012345\t6789", "01\r", "01234506789", "012345067890", "0123456789"};
-
-	// for (int i = 0 ; i < 16; i++)
-	// {
-	// 	index = i;
-	// 	printf("%-9s= |%3s|\n", "string", str[index]);
-	// 	printf("%-9s= |%3s|\n", "base", base[index]);
-	// 	printf(GR"%-9s= %i\n\n"NC, "return" , ft_atoi_base(str[index], base[index]));
-	// }
+	puts("");
 }
 
 void	test_list_size(void)
@@ -187,6 +190,8 @@ int		main(void)
 	test_write();
 	test_read();
 	test_strdup();
+
+	puts("");
 
 	test_atoi_base();
 	test_list_size();
