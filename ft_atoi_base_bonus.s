@@ -15,6 +15,13 @@
 
 ; int		ft_atoi_base(char *rdi, char *rsi);
 
+; rax = number
+; r8 = base
+; r9 = 1st iterator
+; r10 = temporary char, sign flag
+; dl = termporary char
+; r11 = 2nd iterator
+
 _ft_atoi_base:
 	xor		rax, rax				; number = 0
 	mov		r8, -1					; r8 = base
