@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 15:17:47 by lrocca            #+#    #+#             */
-/*   Updated: 2021/04/06 21:30:17 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/04/07 02:14:49 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,6 +242,71 @@ void	test_list_size(void)
 	puts("");
 }
 
+void	printf_list(t_list *list)
+{
+	while (list)
+	{
+		printf("[%s] ", list->data);
+		list = list->next;
+		if (list)
+			printf("-> ");
+	}
+	puts("");
+}
+
+void	test_list_sort(void)
+{
+	puts("ft_list_sort");
+
+	// t_list	*test;
+
+	// ft_list_push_front(&test, strdup("zwxy"));
+	// ft_list_push_front(&test, strdup("toto"));
+	// ft_list_push_front(&test, strdup("0123456"));
+	// ft_list_push_front(&test, strdup("barbar"));
+	// ft_list_push_front(&test, strdup("rooooom"));
+	// ft_list_push_front(&test, strdup("lol"));
+	// ft_list_push_front(&test, strdup("tortor"));
+	// ft_list_push_front(&test, strdup("mdr"));
+	// ft_list_push_front(&test, strdup("0547"));
+	// ft_list_push_front(&test, strdup("000"));
+	// ft_list_push_front(&test, strdup("zzz"));
+
+	// puts("> before");
+
+	// // t_list *tmp = test;
+	// // int len = ft_list_size(tmp);
+	// // while ((tmp = tmp->next))
+	// // 	printf("%s\n", tmp->data);
+
+	// ft_list_sort(&test, &strcmp);
+
+	// puts("> after");
+	// // for (t_list *tmp = test; tmp->data; tmp = tmp->next)
+	// // 	puts(tmp->data);
+
+	// // my_lstclear(&test);
+
+	// printf("sort NULL:\n");
+
+	// ft_list_sort(NULL, &strcmp);
+	// ft_list_sort(&test, &strcmp);
+
+
+	t_list	list;
+	list.data = strdup("A");
+	list.next = NULL;
+	t_list	*sort_test = &list;
+	ft_list_push_front(&sort_test, strdup("B"));
+	// ft_list_push_front(&sort_test, strdup("C"));
+	// ft_list_push_front(&sort_test, strdup("D"));
+	// ft_list_push_front(&sort_test, strdup("E"));
+	// ft_list_push_front(&sort_test, strdup("F"));
+	printf_list(sort_test);
+	ft_list_sort(&sort_test, &strcmp);
+	printf_list(sort_test);
+}
+
 int		main(void)
 {
 	test_strlen();
@@ -256,4 +321,5 @@ int		main(void)
 	test_atoi_base();
 	test_list_push_front();
 	test_list_size();
+	test_list_sort();
 }
