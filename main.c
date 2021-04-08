@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/31 15:17:47 by lrocca            #+#    #+#             */
-/*   Updated: 2021/04/07 02:14:49 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/04/08 20:34:22 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@
 #include <unistd.h>
 
 #define NC "\x1b[0m"
-#define GR "\x1b[32m"
 #define RD "\x1b[31m"
+#define GR "\x1b[32m"
+#define YL "\x1b[33m"
+#define BL "\x1b[36m"
 
 #define OK GR "[OK]" NC " "
 #define KO RD "[KO]" NC " "
@@ -246,7 +248,7 @@ void	printf_list(t_list *list)
 {
 	while (list)
 	{
-		printf("[%s] ", list->data);
+		printf(BL"[%s] "NC, list->data);
 		list = list->next;
 		if (list)
 			printf("-> ");
@@ -258,53 +260,72 @@ void	test_list_sort(void)
 {
 	puts("ft_list_sort");
 
-	// t_list	*test;
+	t_list	*list;
+	list = malloc(sizeof(t_list));
+	list->data = strdup("A");
+	list->next = NULL;
+	ft_list_push_front(&list, strdup("B"));
+	ft_list_push_front(&list, strdup("D"));
+	ft_list_push_front(&list, strdup("E"));
+	ft_list_push_front(&list, strdup("C"));
+	ft_list_push_front(&list, strdup("F"));
 
-	// ft_list_push_front(&test, strdup("zwxy"));
-	// ft_list_push_front(&test, strdup("toto"));
-	// ft_list_push_front(&test, strdup("0123456"));
-	// ft_list_push_front(&test, strdup("barbar"));
-	// ft_list_push_front(&test, strdup("rooooom"));
-	// ft_list_push_front(&test, strdup("lol"));
-	// ft_list_push_front(&test, strdup("tortor"));
-	// ft_list_push_front(&test, strdup("mdr"));
-	// ft_list_push_front(&test, strdup("0547"));
-	// ft_list_push_front(&test, strdup("000"));
-	// ft_list_push_front(&test, strdup("zzz"));
+	if (ft_list_size(list) != 6)
+		return ((void)(puts(KO)));
 
-	// puts("> before");
+	printf_list(list);
+	ft_list_sort(&list, &strcmp);
+	printf_list(list);
 
-	// // t_list *tmp = test;
-	// // int len = ft_list_size(tmp);
-	// // while ((tmp = tmp->next))
-	// // 	printf("%s\n", tmp->data);
+	my_lstclear(&list);
+}
 
-	// ft_list_sort(&test, &strcmp);
+void	test_list_remove_if(void)
+{
+	puts("ft_list_remove_if");
 
-	// puts("> after");
-	// // for (t_list *tmp = test; tmp->data; tmp = tmp->next)
-	// // 	puts(tmp->data);
+	t_list	*list = malloc(sizeof(t_list));
 
-	// // my_lstclear(&test);
+	list->data = strdup("A");
+	list->next = NULL;
 
-	// printf("sort NULL:\n");
+	ft_list_push_front(&list, strdup("B"));
+	ft_list_push_front(&list, strdup("B"));
+	ft_list_push_front(&list, strdup("B"));
+	ft_list_push_front(&list, strdup("B"));
+	ft_list_push_front(&list, strdup("C"));
+	ft_list_push_front(&list, strdup("D"));
+	ft_list_push_front(&list, strdup("E"));
+	ft_list_push_front(&list, strdup("F"));
+	ft_list_push_front(&list, strdup("F"));
+	ft_list_push_front(&list, strdup("H"));
+	ft_list_push_front(&list, strdup("F"));
 
-	// ft_list_sort(NULL, &strcmp);
-	// ft_list_sort(&test, &strcmp);
+	if (ft_list_size(list) != 12)
+		return ((void)(puts(KO)));
 
+	ft_list_remove_if(&list, "B", &strcmp, &free);
+	ft_list_size(list) == 8 ? printf(OK) : printf(KO);
 
-	t_list	list;
-	list.data = strdup("A");
-	list.next = NULL;
-	t_list	*sort_test = &list;
-	ft_list_push_front(&sort_test, strdup("B"));
-	// ft_list_push_front(&sort_test, strdup("C"));
-	// ft_list_push_front(&sort_test, strdup("D"));
-	// ft_list_push_front(&sort_test, strdup("E"));
-	// ft_list_push_front(&sort_test, strdup("F"));
-	printf_list(sort_test);
-	ft_list_sort(&sort_test, &strcmp);
-	printf_list(sort_test);
+	ft_list_remove_if(&list, "Z", &strcmp, &free);
+	ft_list_size(list) == 8 ? printf(OK) : printf(KO);
+
+	ft_list_remove_if(&list, "A", &strcmp, &free);
+	ft_list_size(list) == 7 ? printf(OK) : printf(KO);
+
+	ft_list_remove_if(&list, "H", &strcmp, &free);
+	ft_list_size(list) == 6 ? printf(OK) : printf(KO);
+
+	ft_list_remove_if(&list, "F", &strcmp, &free);
+	ft_list_size(list) == 3 ? printf(OK) : printf(KO);
+
+	ft_list_remove_if(&list, "C", &strcmp, &free);
+	ft_list_remove_if(&list, "D", &strcmp, &free);
+	ft_list_remove_if(&list, "E", &strcmp, &free);
+	ft_list_size(list) == 0 ? printf(OK) : printf(KO);
+
+	free(list);
+	puts("");
 }
 
 int		main(void)
@@ -316,10 +337,11 @@ int		main(void)
 	test_read();
 	test_strdup();
 
-	puts("");
+	puts(YL"bonus"NC);
 
 	test_atoi_base();
 	test_list_push_front();
 	test_list_size();
 	test_list_sort();
+	test_list_remove_if();
 }
