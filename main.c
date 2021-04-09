@@ -34,7 +34,7 @@ typedef struct	s_list
 }				t_list;
 
 /*
-** mandatory
+** mandatory prototypes
 */
 size_t	ft_strlen(const char *s);
 char	*ft_strcpy(char *dst, const char *src);
@@ -44,7 +44,7 @@ ssize_t	ft_read(int fildes, void *buf, size_t nbyte);
 char	*ft_strdup(const char *s1);
 
 /*
-** bonus
+** bonus prototypes
 */
 int		ft_atoi_base(char *str, char *base);
 void	ft_list_push_front(t_list **begin_list,void*data);
@@ -52,6 +52,10 @@ int		ft_list_size(t_list *begin_list);
 void	ft_list_sort(t_list **begin_list, int(*cmp)());
 void	ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)(), void (*free_fct)(void*));
 
+
+/*
+** mandatory tests
+*/
 void	test_strlen(void)
 {
 	puts("ft_strlen");
@@ -112,7 +116,7 @@ void	test_read(void)
 	puts("ft_read");
 
 	int		fd;
-	fd = open("test.c", O_RDONLY);
+	fd = open("main.c", O_RDONLY);
 
 	char	buffer[10];
 
@@ -138,6 +142,9 @@ void	test_strdup(void)
 	puts("");
 }
 
+/*
+** bonus tests
+*/
 void	test_atoi_base(void)
 {
 	puts("ft_atoi_base");
@@ -284,8 +291,8 @@ void	test_list_remove_if(void)
 {
 	puts("ft_list_remove_if");
 
-	t_list	*list = malloc(sizeof(t_list));
-
+	t_list	*list;
+	list = malloc(sizeof(t_list));
 	list->data = strdup("A");
 	list->next = NULL;
 
