@@ -29,53 +29,49 @@
 %endmacro
 
 _ft_list_remove_if:
-	push	rbp
-	mov		rbp, rsp
-	sub		rsp, 8
+	push	rbp					; save base pointer
+	mov		rbp, rsp			; copy stack pointer
+	sub		rsp, 8				; align stack
 
-	cmp		rdi, 0
-	je		return
-	cmp		qword [rdi], 0
-	je		return
+	cmp		rdi, 0				; node == 0
+	jz		return
+	cmp		qword [rdi], 0		; *node == 0
+	jz		return
 
 	PUSH_ALL
-	mov		rdi, [rdi]
-    mov		rdi, [rdi + 0]
-    call	rdx					; cmp((*begin_list)->data, data_ref)
+	mov		rdi, [rdi]			; *node
+	mov		rdi, [rdi + 0]		; (*node)->data
+	call	rdx					; cmp((*node)->data, data_ref)
 	POP_ALL
-	cmp		rax, 0
+	cmp		rax, 0				; cmp returned 0, remove
 	jz		remove
 
-	push	rdi
-	mov		rdi, [rdi]
-	lea		rdi, [rdi + 8]
-	call	_ft_list_remove_if	; recursive
-	pop		rdi
+	mov		rdi, [rdi]			; *node
+	lea		rdi, [rdi + 8]		; (*node)->next
+	call	_ft_list_remove_if	; call recursively
 	jmp		return
 
 remove:
-	mov		rax, [rdi]			; rax = *begin_list
+	mov		rax, [rdi]			; rax = *node
 	mov		rax, [rax + 8]		; rax = rax->next
-	mov		[rbp - 8], rax		; saved_next = (*begin_list)->next
-
-	push rdi					; strange behavior
-	PUSH_ALL
-	mov		rdi, [rdi]
-	mov		rdi, [rdi + 0]
-	call rcx					; free_fct((*begin_list)->data)
-	POP_ALL
-	pop  rdi
+	mov		[rbp - 8], rax		; saved_next = (*node)->next
 
 	PUSH_ALL
-	mov		rdi, [rdi]
-	call	_free				; free(*begin_list)
+	mov		rdi, [rdi]			; *node
+	mov		rdi, [rdi + 0]		; (*node)->data
+	call	rcx					; free_fct((*node)->data)
 	POP_ALL
 
-	mov		rax, [rbp - 8]
+	PUSH_ALL
+	mov		rdi, [rdi]			; *node
+	call	_free				; free(*node)
+	POP_ALL
+
+	mov		rax, [rbp - 8]		; get next node
 	mov		[rdi], rax
-	call	_ft_list_remove_if
+	call	_ft_list_remove_if	; call recursively
 
 return:
-	mov		rsp, rbp
-	pop		rbp
+	mov		rsp, rbp			; restore stack pointer
+	pop		rbp					; restore base pointer
 	ret
